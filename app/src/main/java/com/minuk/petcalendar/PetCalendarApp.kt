@@ -1,4 +1,4 @@
-package com.example.petcalendar
+package com.minuk.petcalendar
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

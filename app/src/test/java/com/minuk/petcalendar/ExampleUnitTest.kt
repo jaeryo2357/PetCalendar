@@ -1,4 +1,4 @@
-package com.example.petcalendar
+package com.minuk.petcalendar
 
 import org.junit.Test
 

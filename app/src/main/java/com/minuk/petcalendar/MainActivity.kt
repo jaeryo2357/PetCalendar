@@ -1,4 +1,4 @@
-package com.example.petcalendar
+package com.minuk.petcalendar
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

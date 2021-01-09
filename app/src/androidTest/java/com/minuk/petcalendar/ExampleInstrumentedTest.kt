@@ -1,4 +1,4 @@
-package com.example.petcalendar
+package com.minuk.petcalendar
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
