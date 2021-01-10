@@ -1,2 +1,3 @@
+include ':calendar'
 include ':app'
 rootProject.name = "PetCalendar"
