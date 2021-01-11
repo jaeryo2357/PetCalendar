@@ -13,14 +13,14 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_header"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textview_sunday"
+                android:id="@+id/sunday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -30,7 +30,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_monday"
+                android:id="@+id/monday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,7 +40,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_tuesday"
+                android:id="@+id/tuesday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -50,7 +50,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_wednesday"
+                android:id="@+id/wednesday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -60,7 +60,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_thursday"
+                android:id="@+id/thursday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -70,7 +70,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_friday"
+                android:id="@+id/friday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,7 +80,7 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_saturday"
+                android:id="@+id/saturday_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -92,15 +92,18 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_calender"
+            android:id="@+id/days_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:overScrollMode="never"
             android:scrollbars="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:listitem="@layout/item_calendar"/>
+            app:spanCount="7"
+            tools:itemCount="41"
+            tools:listitem="@layout/item_calendar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

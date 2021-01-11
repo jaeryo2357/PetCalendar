@@ -16,18 +16,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/day_calendar_cl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="2:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_calendar_view">
 
         <TextView
-            android:id="@+id/date_calendar_tv"
+            android:id="@+id/day_calendar_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="6sp"
             android:padding="10dp"
             android:textColor="@color/calendar_normal"
             android:textSize="12dp"
@@ -36,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.16"
+            app:layout_constraintVertical_bias="0.1"
             tools:text="00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
