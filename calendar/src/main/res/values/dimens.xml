@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="height_header">18dp</dimen>
+    <dimen name="width_day_tv">30dp</dimen>
+    <dimen name="height_dey_tv">30dp</dimen>
 </resources>

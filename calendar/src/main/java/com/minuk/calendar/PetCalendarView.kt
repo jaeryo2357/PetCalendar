@@ -70,7 +70,7 @@ class PetCalendarView @JvmOverloads constructor(
     }
 
     private fun initCalendarData() {
-        Log.d(TAG, "year: ${calendar[Calendar.YEAR]} month: ${calendar[Calendar.MONTH]}")
+        //Log.d(TAG, "year: ${calendar[Calendar.YEAR]} month: ${calendar[Calendar.MONTH]}")
 
         toDay = calendar[Calendar.DAY_OF_MONTH]
         calendar.set(Calendar.DAY_OF_MONTH, 1)
@@ -100,15 +100,19 @@ class PetCalendarView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * 측정된 가로와 세로 길이로 ratio를 계산하여
+     * 이전 ratio와 다르면 item view 재생성
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        when(MeasureSpec.getMode(widthMeasureSpec)) {
+        when (MeasureSpec.getMode(widthMeasureSpec)) {
             MeasureSpec.UNSPECIFIED -> viewWidth = widthMeasureSpec
             MeasureSpec.EXACTLY -> viewWidth = MeasureSpec.getSize(widthMeasureSpec)
         }
 
-        when(MeasureSpec.getMode(heightMeasureSpec)) {
+        when (MeasureSpec.getMode(heightMeasureSpec)) {
             MeasureSpec.UNSPECIFIED -> viewHeight = heightMeasureSpec
             MeasureSpec.EXACTLY -> viewHeight = MeasureSpec.getSize(heightMeasureSpec)
         }
@@ -213,7 +217,7 @@ class PetCalendarView @JvmOverloads constructor(
             //주말과 평일, 오늘 각각의 text color 설정
             if (position % 7 == 0 || position % 7 == 6) {
                 holder.binding.dayCalendarTv.setTextColor(weekendColor)
-            } else if (position == toDay + startDayOfWeek - 1){
+            } else if (position == toDay + startDayOfWeek - 1) {
                 holder.binding.dayCalendarTv.setTextColor(todayColor)
             } else {
                 holder.binding.dayCalendarTv.setTextColor(weekdaysColor)
@@ -232,10 +236,9 @@ class PetCalendarView @JvmOverloads constructor(
                 val layoutParams =
                     binding.dayCalendarCl.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.dimensionRatio = itemViewRatio
-               // Log.d(TAG, itemViewRatio)
+                // Log.d(TAG, itemViewRatio)
 
                 binding.dayCalendarCl.layoutParams = layoutParams
-
             }
         }
     }
@@ -243,6 +246,7 @@ class PetCalendarView @JvmOverloads constructor(
     companion object {
 
         const val TAG = "Pet Calender"
+
         //달력에서 총 보여질 날짜의 수
         const val DEFAULT_DAYS_COUNT = 42
 
