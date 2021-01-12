@@ -46,6 +46,7 @@ class PetCalendarView @JvmOverloads constructor(
     private var weekdaysColor = DEFAULT_WEEKDAYS_COLOR
     private var todayColor = DEFAULT_TODAY_COLOR
 
+    private var eventHandler: PetCalendarEventHandler? = null
 
     private var calendarAdapter: PetCalendarAdapter? = null
 
@@ -101,7 +102,7 @@ class PetCalendarView @JvmOverloads constructor(
     }
 
     /**
-     * 측정된 가로와 세로 길이로 ratio를 계산하여
+     *측정된 가로와 세로 길이로 ratio를 계산하여
      * 이전 ratio와 다르면 item view 재생성
      */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -128,17 +129,17 @@ class PetCalendarView @JvmOverloads constructor(
         }
     }
 
-    public fun setCalendar(
+    public fun setCalendarDate(
         calendar: Calendar
     ) {
-        setCalendar(
+        setCalendarDate(
             calendar[Calendar.YEAR],
             calendar[Calendar.MONTH],
             calendar[Calendar.DAY_OF_MONTH]
         )
     }
 
-    public fun setCalendar(
+    public fun setCalendarDate(
         year: Int = calendar[Calendar.YEAR],
         month: Int = calendar[Calendar.MONTH],
         day: Int = calendar[Calendar.DAY_OF_MONTH]
@@ -146,6 +147,10 @@ class PetCalendarView @JvmOverloads constructor(
         calendar.set(year, month, day)
 
         initCalendarData()
+    }
+
+    public fun setEventHandler(eventHandler: PetCalendarEventHandler) {
+        this.eventHandler = eventHandler
     }
 
     /**
@@ -192,17 +197,8 @@ class PetCalendarView @JvmOverloads constructor(
         }
 
         override fun onBindViewHolder(holder: PetCalenderViewHolder, position: Int) {
-            val day: Int = when {
-                position < startDayOfWeek -> {
-                    endDayOfLastMonth - (startDayOfWeek - position - 1)
-                }
-                position > (endDayOfCurrentMonth + startDayOfWeek - 1) -> {
-                    position - (endDayOfCurrentMonth + startDayOfWeek) + 1
-                }
-                else -> {
-                    position - startDayOfWeek + 1
-                }
-            }
+
+            val day: Int = getDayFromPosition(calendar[Calendar.MONTH], position).second
 
             holder.binding.dayCalendarTv.text = "$day"
 
@@ -228,10 +224,35 @@ class PetCalendarView @JvmOverloads constructor(
             return daysCount
         }
 
+        /**
+         * position 값으로 날짜 측정하는 함수
+         * 한 달력 화면에서 최대 3개의 월 달력이 보여 월과 일을 구분
+         *
+         * @return month 와 day 를 Pair 객체로 반환합니다.
+         */
+        private fun getDayFromPosition(
+            currentMonth: Int = calendar[Calendar.MONTH],
+            position: Int
+        ): Pair<Int, Int> = when {
+            position < startDayOfWeek -> {
+                val day = endDayOfLastMonth - (startDayOfWeek - position - 1)
+                Pair(currentMonth - 1, day)
+            }
+            position > (endDayOfCurrentMonth + startDayOfWeek - 1) -> {
+                val day = position - (endDayOfCurrentMonth + startDayOfWeek) + 1
+                Pair(currentMonth, day)
+            }
+            else -> {
+                val day = position - startDayOfWeek + 1
+                Pair(currentMonth + 1, day)
+            }
+        }
+
         private inner class PetCalenderViewHolder(
             val binding: ItemCalendarBinding
         ) : RecyclerView.ViewHolder(binding.root) {
 
+            //item View Ratio 적용
             init {
                 val layoutParams =
                     binding.dayCalendarCl.layoutParams as ConstraintLayout.LayoutParams
@@ -240,7 +261,22 @@ class PetCalendarView @JvmOverloads constructor(
 
                 binding.dayCalendarCl.layoutParams = layoutParams
             }
+
+            //Event Handler 호출
+            init {
+                itemView.setOnClickListener {
+                    val year = calendar[Calendar.YEAR]
+
+                    val pair = getDayFromPosition(position = adapterPosition)
+
+                    eventHandler?.dayClickEvent(year, pair.first, pair.second)
+                }
+            }
         }
+    }
+
+    interface PetCalendarEventHandler {
+        fun dayClickEvent(year: Int, month: Int, day: Int)
     }
 
     companion object {
