@@ -129,30 +129,6 @@ class PetCalendarView @JvmOverloads constructor(
         }
     }
 
-    public fun setCalendarDate(
-        calendar: Calendar
-    ) {
-        setCalendarDate(
-            calendar[Calendar.YEAR],
-            calendar[Calendar.MONTH],
-            calendar[Calendar.DAY_OF_MONTH]
-        )
-    }
-
-    public fun setCalendarDate(
-        year: Int = calendar[Calendar.YEAR],
-        month: Int = calendar[Calendar.MONTH],
-        day: Int = calendar[Calendar.DAY_OF_MONTH]
-    ) {
-        calendar.set(year, month, day)
-
-        initCalendarData()
-    }
-
-    public fun setEventHandler(eventHandler: PetCalendarEventHandler) {
-        this.eventHandler = eventHandler
-    }
-
     /**
      * ConstraintLayout DimensRatio 구하는 함수
      *
@@ -187,6 +163,30 @@ class PetCalendarView @JvmOverloads constructor(
         }
 
         return minimum
+    }
+
+    fun setCalendarDate(
+        calendar: Calendar
+    ) {
+        setCalendarDate(
+            calendar[Calendar.YEAR],
+            calendar[Calendar.MONTH],
+            calendar[Calendar.DAY_OF_MONTH]
+        )
+    }
+
+    fun setCalendarDate(
+        year: Int = calendar[Calendar.YEAR],
+        month: Int = calendar[Calendar.MONTH],
+        day: Int = calendar[Calendar.DAY_OF_MONTH]
+    ) {
+        calendar.set(year, month, day)
+
+        initCalendarData()
+    }
+
+    fun setEventHandler(eventHandler: PetCalendarEventHandler) {
+        this.eventHandler = eventHandler
     }
 
     private inner class PetCalendarAdapter :
@@ -252,8 +252,12 @@ class PetCalendarView @JvmOverloads constructor(
             val binding: ItemCalendarBinding
         ) : RecyclerView.ViewHolder(binding.root) {
 
-            //item View Ratio 적용
             init {
+                setDimensRatio()
+                setEventHandler()
+            }
+
+            private fun setDimensRatio() {
                 val layoutParams =
                     binding.dayCalendarCl.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.dimensionRatio = itemViewRatio
@@ -262,8 +266,7 @@ class PetCalendarView @JvmOverloads constructor(
                 binding.dayCalendarCl.layoutParams = layoutParams
             }
 
-            //Event Handler 호출
-            init {
+            private fun setEventHandler() {
                 itemView.setOnClickListener {
                     val year = calendar[Calendar.YEAR]
 
