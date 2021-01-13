@@ -87,6 +87,8 @@ class PetCalendarView @JvmOverloads constructor(
             daysCount += 7 - daysCount % 7
         }
 
+        setItemViewDimensRadio()
+
         if (calendarAdapter == null) {
             calendarAdapter = PetCalendarAdapter()
         } else {
@@ -102,7 +104,7 @@ class PetCalendarView @JvmOverloads constructor(
     }
 
     /**
-     *측정된 가로와 세로 길이로 ratio를 계산하여
+     * 측정된 가로와 세로 길이로 ratio를 계산하여
      * 이전 ratio와 다르면 item view 재생성
      */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -118,14 +120,18 @@ class PetCalendarView @JvmOverloads constructor(
             MeasureSpec.EXACTLY -> viewHeight = MeasureSpec.getSize(heightMeasureSpec)
         }
 
+        setItemViewDimensRadio(true)
+    }
+
+    private fun setItemViewDimensRadio(update: Boolean = false) {
         val ratio = getItemViewDimensRatio()
 
         if (itemViewRatio != ratio) {
             itemViewRatio = ratio
 
-            //저장된 ViewHolder 캐시를 지워서 새로운 크기의 ViewHolder 생성
-            calendarBinding.daysRecyclerview.recycledViewPool.clear()
-            calendarAdapter?.notifyDataSetChanged()
+            if (update) {
+                calendarAdapter?.notifyDataSetChanged()
+            }
         }
     }
 
@@ -210,11 +216,11 @@ class PetCalendarView @JvmOverloads constructor(
                 holder.binding.dayCalendarTv.background = null
             }
 
-            //주말과 평일, 오늘 각각의 text color 설정
-            if (position % 7 == 0 || position % 7 == 6) {
-                holder.binding.dayCalendarTv.setTextColor(weekendColor)
-            } else if (position == toDay + startDayOfWeek - 1) {
+
+            if (position == toDay + startDayOfWeek - 1) {
                 holder.binding.dayCalendarTv.setTextColor(todayColor)
+            } else if (position % 7 == 0 || position % 7 == 6) {
+                holder.binding.dayCalendarTv.setTextColor(weekendColor)
             } else {
                 holder.binding.dayCalendarTv.setTextColor(weekdaysColor)
             }
@@ -253,11 +259,11 @@ class PetCalendarView @JvmOverloads constructor(
         ) : RecyclerView.ViewHolder(binding.root) {
 
             init {
-                setDimensRatio()
-                setEventHandler()
+                initDimensRatio()
+                initEventHandler()
             }
 
-            private fun setDimensRatio() {
+            private fun initDimensRatio() {
                 val layoutParams =
                     binding.dayCalendarCl.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.dimensionRatio = itemViewRatio
@@ -266,7 +272,7 @@ class PetCalendarView @JvmOverloads constructor(
                 binding.dayCalendarCl.layoutParams = layoutParams
             }
 
-            private fun setEventHandler() {
+            private fun initEventHandler() {
                 itemView.setOnClickListener {
                     val year = calendar[Calendar.YEAR]
 
