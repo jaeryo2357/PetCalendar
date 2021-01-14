@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="calendar_normal">#283b42</color>
-    <color name="calendar_accent">#1d6a96</color>
     <color name="calendar_divider">#d1dddb</color>
 </resources>

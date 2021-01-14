@@ -3,12 +3,11 @@ package com.minuk.calendar
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 
 import androidx.recyclerview.widget.RecyclerView
 import com.minuk.calendar.databinding.ItemCalendarBinding
@@ -16,8 +15,6 @@ import com.minuk.calendar.databinding.ItemCalendarBinding
 import com.minuk.calendar.databinding.ViewCalendarBinding
 
 import java.util.*
-import kotlin.math.max
-import kotlin.math.min
 
 class PetCalendarView @JvmOverloads constructor(
     context: Context,
@@ -38,13 +35,13 @@ class PetCalendarView @JvmOverloads constructor(
     //custom view property
     private var viewWidth = 0
     private var viewHeight = 0
+    private var childViewWidth = 0
+    private var childViewHeight = 0
     private var headerViewHeight = 0f
-    private var itemViewRatio = DEFAULT_ITEM_DIMENS_RATIO
 
     //Ui data property
-    private var weekendColor = DEFAULT_WEEKEND_COLOR
-    private var weekdaysColor = DEFAULT_WEEKDAYS_COLOR
-    private var todayColor = DEFAULT_TODAY_COLOR
+    private var calendarAccentColor: Int = 0
+    private var calendarNormalColor: Int = 0
 
     private var eventHandler: PetCalendarEventHandler? = null
 
@@ -52,6 +49,7 @@ class PetCalendarView @JvmOverloads constructor(
 
     init {
         initLayout(context)
+        initCalendarColor(attrs)
         initHeaderSize()
 
         initCalendarData()
@@ -59,11 +57,28 @@ class PetCalendarView @JvmOverloads constructor(
     }
 
     private fun initLayout(context: Context) {
-        val inflater = LayoutInflater.from(context)
+        calendarBinding =
+            ViewCalendarBinding.inflate(LayoutInflater.from(context), this)
+    }
 
-        calendarBinding = ViewCalendarBinding.inflate(inflater)
+    private fun initCalendarColor(attrs: AttributeSet?) {
 
-        this.addView(calendarBinding.root)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.PetCalendarView)
+
+        calendarAccentColor = typedArray.getColor(
+            R.styleable.PetCalendarView_calendarColorAccount,
+            DEFAULT_ACCENT_COLOR
+        )
+
+        calendarNormalColor = typedArray.getColor(
+            R.styleable.PetCalendarView_calendarColorNormal,
+            DEFAULT_NORMAL_COLOR
+        )
+
+        typedArray.recycle()
+
+        calendarBinding.sundayTextview.setTextColor(calendarAccentColor)
+        calendarBinding.saturdayTextview.setTextColor(calendarAccentColor)
     }
 
     private fun initHeaderSize() {
@@ -87,16 +102,12 @@ class PetCalendarView @JvmOverloads constructor(
             daysCount += 7 - daysCount % 7
         }
 
-        setItemViewDimensRadio()
-
-        if (calendarAdapter == null) {
-            calendarAdapter = PetCalendarAdapter()
-        } else {
-            calendarAdapter?.notifyDataSetChanged()
-        }
+        calendarAdapter?.notifyDataSetChanged()
     }
 
     private fun initDayRecyclerView() {
+        calendarAdapter = PetCalendarAdapter()
+
         calendarBinding.daysRecyclerview.apply {
             setItemViewCacheSize(10)
             adapter = calendarAdapter
@@ -120,55 +131,11 @@ class PetCalendarView @JvmOverloads constructor(
             MeasureSpec.EXACTLY -> viewHeight = MeasureSpec.getSize(heightMeasureSpec)
         }
 
-        setItemViewDimensRadio(true)
-    }
+        childViewWidth = viewWidth / 7
 
-    private fun setItemViewDimensRadio(update: Boolean = false) {
-        val ratio = getItemViewDimensRatio()
+        val verticalAxisSize = daysCount / 7
 
-        if (itemViewRatio != ratio) {
-            itemViewRatio = ratio
-
-            if (update) {
-                calendarAdapter?.notifyDataSetChanged()
-            }
-        }
-    }
-
-    /**
-     * ConstraintLayout DimensRatio 구하는 함수
-     *
-     * @return width:height  ex) 2:3
-     */
-    private fun getItemViewDimensRatio(): String {
-        var verticalAxisSize = daysCount / 7
-
-        val itemViewWidth = viewWidth / 7
-        val itemViewHeight = (viewHeight - headerViewHeight) / verticalAxisSize
-
-        val gcd = getGCD(itemViewWidth, itemViewHeight.toInt())
-        //Log.d(TAG, "width: $itemViewWidth, height: $itemViewHeight, gcd: $gcd")
-
-        return "${itemViewWidth / gcd}:${(itemViewHeight / gcd).toInt()}"
-    }
-
-    /**
-     * 유클리드 호제법으로 구하는 a와 b의 최대공약
-     */
-    private fun getGCD(a: Int, b: Int): Int {
-        var maximum = max(a, b)
-        var minimum = min(a, b)
-
-        while (minimum != 0) {
-            val r = maximum % minimum
-
-            if (r == 0) return minimum
-
-            maximum = b
-            minimum = r
-        }
-
-        return minimum
+        childViewHeight = ((viewHeight - headerViewHeight) / verticalAxisSize).toInt()
     }
 
     fun setCalendarDate(
@@ -198,8 +165,9 @@ class PetCalendarView @JvmOverloads constructor(
     private inner class PetCalendarAdapter :
         RecyclerView.Adapter<PetCalendarAdapter.PetCalenderViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetCalenderViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            return PetCalenderViewHolder(ItemCalendarBinding.inflate(inflater))
+            return PetCalenderViewHolder(
+                ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
         }
 
         override fun onBindViewHolder(holder: PetCalenderViewHolder, position: Int) {
@@ -210,19 +178,25 @@ class PetCalendarView @JvmOverloads constructor(
 
             //현재 요일의 경우 동그라미 이미지 표시
             if (position == toDay + startDayOfWeek - 1) {
-                holder.binding.dayCalendarTv.background =
-                    ResourcesCompat.getDrawable(resources, R.drawable.bg_date_selected, null)
+                val drawable = ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.bg_date_selected, null
+                )?.apply {
+                    DrawableCompat.setTint(this, calendarAccentColor)
+                }
+
+                holder.binding.dayCalendarTv.background = drawable
             } else {
                 holder.binding.dayCalendarTv.background = null
             }
 
 
             if (position == toDay + startDayOfWeek - 1) {
-                holder.binding.dayCalendarTv.setTextColor(todayColor)
+                holder.binding.dayCalendarTv.setTextColor(Color.WHITE)
             } else if (position % 7 == 0 || position % 7 == 6) {
-                holder.binding.dayCalendarTv.setTextColor(weekendColor)
+                holder.binding.dayCalendarTv.setTextColor(calendarAccentColor)
             } else {
-                holder.binding.dayCalendarTv.setTextColor(weekdaysColor)
+                holder.binding.dayCalendarTv.setTextColor(calendarNormalColor)
             }
         }
 
@@ -259,46 +233,44 @@ class PetCalendarView @JvmOverloads constructor(
         ) : RecyclerView.ViewHolder(binding.root) {
 
             init {
-                initDimensRatio()
+                initLayout()
                 initEventHandler()
             }
 
-            private fun initDimensRatio() {
-                val layoutParams =
-                    binding.dayCalendarCl.layoutParams as ConstraintLayout.LayoutParams
-                layoutParams.dimensionRatio = itemViewRatio
+            private fun initLayout() {
+                val layoutParams = binding.root.layoutParams.apply {
+                    width = childViewWidth
+                    height = childViewHeight
+                }
                 // Log.d(TAG, itemViewRatio)
 
-                binding.dayCalendarCl.layoutParams = layoutParams
+                binding.root.layoutParams = layoutParams
             }
 
             private fun initEventHandler() {
                 itemView.setOnClickListener {
                     val year = calendar[Calendar.YEAR]
 
-                    val pair = getDayFromPosition(position = adapterPosition)
+                    val (month, day) = getDayFromPosition(position = adapterPosition)
 
-                    eventHandler?.dayClickEvent(year, pair.first, pair.second)
+                    eventHandler?.onDayClick(year, month, day)
                 }
             }
         }
     }
 
     interface PetCalendarEventHandler {
-        fun dayClickEvent(year: Int, month: Int, day: Int)
+        fun onDayClick(year: Int, month: Int, day: Int)
     }
 
     companion object {
 
-        const val TAG = "Pet Calender"
+        private const val TAG = "Pet Calender"
 
         //달력에서 총 보여질 날짜의 수
-        const val DEFAULT_DAYS_COUNT = 42
+        private const val DEFAULT_DAYS_COUNT = 42
 
-        const val DEFAULT_ITEM_DIMENS_RATIO = "2:3"
-
-        val DEFAULT_WEEKEND_COLOR = Color.parseColor("#1d6a96")
-        val DEFAULT_WEEKDAYS_COLOR = Color.parseColor("#283b42")
-        const val DEFAULT_TODAY_COLOR = Color.WHITE
+        private const val DEFAULT_ACCENT_COLOR = Color.BLACK
+        private const val DEFAULT_NORMAL_COLOR = Color.BLACK
     }
 }

@@ -10,15 +10,15 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    lateinit var calendar: PetCalendarView
+    private val calendar: PetCalendarView by lazy { findViewById(R.id.petcalendar) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        calendar = findViewById(R.id.petcalendar)
+        val testCalendar = Calendar.getInstance()
 
         findViewById<Button>(R.id.change_calendar_btn).setOnClickListener {
-            val testCalendar = Calendar.getInstance()
             testCalendar.add(Calendar.MONTH, 1)
 
             calendar.setCalendarDate(testCalendar)

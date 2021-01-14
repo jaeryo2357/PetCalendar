@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/height_header"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_sunday"
-                android:textColor="@color/calendar_accent"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_monday"
-                android:textColor="@color/calendar_normal"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_tuesday"
-                android:textColor="@color/calendar_normal"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_wednesday"
-                android:textColor="@color/calendar_normal"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -66,7 +66,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_thursday"
-                android:textColor="@color/calendar_normal"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_friday"
-                android:textColor="@color/calendar_normal"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_saturday"
-                android:textColor="@color/calendar_accent"
+                android:textColor="@android:color/black"
                 android:textSize="14dp" />
 
         </LinearLayout>
@@ -98,6 +98,7 @@
             android:overScrollMode="never"
             android:scrollbars="none"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
@@ -107,4 +108,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</merge>

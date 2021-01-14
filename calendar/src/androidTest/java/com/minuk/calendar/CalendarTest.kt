@@ -39,8 +39,8 @@ class CalendarTest {
 
     @Test
     fun checkVerticalAxis_changeCalendar() {
-
-        device.wait(Until.hasObject(By.pkg(BASIC_PACKAGE).depth(0)), LANCH_TIMEOUT)
+        //TODO: 추후 테스트 로직 변경
+       device.wait(Until.hasObject(By.pkg(BASIC_PACKAGE).depth(0)), LANCH_TIMEOUT)
 
         device.findObject(By.res(BASIC_PACKAGE, "change_calendar_btn"))
             .click()
