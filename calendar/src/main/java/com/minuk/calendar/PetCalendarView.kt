@@ -4,15 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
-
-import androidx.recyclerview.widget.RecyclerView
-import com.minuk.calendar.databinding.ItemCalendarBinding
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
+import com.minuk.calendar.ui.MonthConfig
+import com.minuk.calendar.ui.PetCalendarAdapter
+import java.time.Month
 
 import java.util.*
 
@@ -26,11 +23,12 @@ class PetCalendarView @JvmOverloads constructor(
 
     //calendar data property
     private val calendar = Calendar.getInstance()
-    private var toDay = 0
+    private var today = 0
+    private var currentMonth = 0
     private var startDayOfWeek = 0
     private var endDayOfCurrentMonth = 31
     private var endDayOfLastMonth = 31
-    private var daysCount = DEFAULT_DAYS_COUNT
+    private var daysSize = DEFAULT_DAYS_SIZE
 
     //custom view property
     private var viewWidth = 0
@@ -87,31 +85,56 @@ class PetCalendarView @JvmOverloads constructor(
 
     private fun initCalendarData() {
         //Log.d(TAG, "year: ${calendar[Calendar.YEAR]} month: ${calendar[Calendar.MONTH]}")
+        val tempCalendar = calendar.clone() as Calendar
 
-        toDay = calendar[Calendar.DAY_OF_MONTH]
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        today = tempCalendar[Calendar.DAY_OF_MONTH]
+        currentMonth = tempCalendar[Calendar.MONTH]
+        tempCalendar.set(Calendar.DAY_OF_MONTH, 1)
 
-        startDayOfWeek = calendar[Calendar.DAY_OF_WEEK] - 1
-        endDayOfCurrentMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        startDayOfWeek = tempCalendar[Calendar.DAY_OF_WEEK] - 1
+        endDayOfCurrentMonth = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        endDayOfLastMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        tempCalendar.add(Calendar.DAY_OF_MONTH, -1)
+        endDayOfLastMonth = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
-        daysCount = startDayOfWeek + endDayOfCurrentMonth
-        if (daysCount % 7 != 0) {
-            daysCount += 7 - daysCount % 7
+        daysSize = startDayOfWeek + endDayOfCurrentMonth
+        if (daysSize % 7 != 0) {
+            daysSize += 7 - daysSize % 7
         }
 
         calendarAdapter?.notifyDataSetChanged()
     }
 
     private fun initDayRecyclerView() {
-        calendarAdapter = PetCalendarAdapter()
+
+        val monthConfig = createMonthConfig()
+
+        calendarAdapter = PetCalendarAdapter(
+            monthConfig,
+            eventHandler
+        )
 
         calendarBinding.daysRecyclerview.apply {
             setItemViewCacheSize(10)
+            setHasFixedSize(true)
             adapter = calendarAdapter
         }
+    }
+
+    private fun createMonthConfig(): MonthConfig {
+        return MonthConfig(
+            childViewWidth,
+            childViewWidth,
+            daysSize,
+            calendar[Calendar.YEAR],
+            today,
+            currentMonth,
+            startDayOfWeek,
+            endDayOfLastMonth,
+            endDayOfCurrentMonth,
+            calendarAccentColor,
+            calendarNormalColor
+        )
     }
 
     /**
@@ -133,9 +156,14 @@ class PetCalendarView @JvmOverloads constructor(
 
         childViewWidth = viewWidth / 7
 
-        val verticalAxisSize = daysCount / 7
+        val verticalAxisSize = daysSize / 7
 
         childViewHeight = ((viewHeight - headerViewHeight) / verticalAxisSize).toInt()
+
+        calendarAdapter?.run {
+            this.monthConfig = createMonthConfig()
+            this.notifyDataSetChanged()
+        }
     }
 
     fun setCalendarDate(
@@ -162,103 +190,6 @@ class PetCalendarView @JvmOverloads constructor(
         this.eventHandler = eventHandler
     }
 
-    private inner class PetCalendarAdapter :
-        RecyclerView.Adapter<PetCalendarAdapter.PetCalenderViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetCalenderViewHolder {
-            return PetCalenderViewHolder(
-                ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            )
-        }
-
-        override fun onBindViewHolder(holder: PetCalenderViewHolder, position: Int) {
-
-            val day: Int = getDayFromPosition(calendar[Calendar.MONTH], position).second
-
-            holder.binding.dayCalendarTv.text = "$day"
-
-            //현재 요일의 경우 동그라미 이미지 표시
-            if (position == toDay + startDayOfWeek - 1) {
-                val drawable = ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.bg_date_selected, null
-                )?.apply {
-                    DrawableCompat.setTint(this, calendarAccentColor)
-                }
-
-                holder.binding.dayCalendarTv.background = drawable
-            } else {
-                holder.binding.dayCalendarTv.background = null
-            }
-
-
-            if (position == toDay + startDayOfWeek - 1) {
-                holder.binding.dayCalendarTv.setTextColor(Color.WHITE)
-            } else if (position % 7 == 0 || position % 7 == 6) {
-                holder.binding.dayCalendarTv.setTextColor(calendarAccentColor)
-            } else {
-                holder.binding.dayCalendarTv.setTextColor(calendarNormalColor)
-            }
-        }
-
-        override fun getItemCount(): Int {
-            return daysCount
-        }
-
-        /**
-         * position 값으로 날짜 측정하는 함수
-         * 한 달력 화면에서 최대 3개의 월 달력이 보여 월과 일을 구분
-         *
-         * @return month 와 day 를 Pair 객체로 반환합니다.
-         */
-        private fun getDayFromPosition(
-            currentMonth: Int = calendar[Calendar.MONTH],
-            position: Int
-        ): Pair<Int, Int> = when {
-            position < startDayOfWeek -> {
-                val day = endDayOfLastMonth - (startDayOfWeek - position - 1)
-                Pair(currentMonth - 1, day)
-            }
-            position > (endDayOfCurrentMonth + startDayOfWeek - 1) -> {
-                val day = position - (endDayOfCurrentMonth + startDayOfWeek) + 1
-                Pair(currentMonth, day)
-            }
-            else -> {
-                val day = position - startDayOfWeek + 1
-                Pair(currentMonth + 1, day)
-            }
-        }
-
-        private inner class PetCalenderViewHolder(
-            val binding: ItemCalendarBinding
-        ) : RecyclerView.ViewHolder(binding.root) {
-
-            init {
-                initLayout()
-                initEventHandler()
-            }
-
-            private fun initLayout() {
-                val layoutParams = binding.root.layoutParams.apply {
-                    width = childViewWidth
-                    height = childViewHeight
-                }
-                // Log.d(TAG, itemViewRatio)
-
-                binding.root.layoutParams = layoutParams
-            }
-
-            private fun initEventHandler() {
-                itemView.setOnClickListener {
-                    val year = calendar[Calendar.YEAR]
-
-                    val (month, day) = getDayFromPosition(position = adapterPosition)
-
-                    eventHandler?.onDayClick(year, month, day)
-                }
-            }
-        }
-    }
-
     interface PetCalendarEventHandler {
         fun onDayClick(year: Int, month: Int, day: Int)
     }
@@ -268,7 +199,7 @@ class PetCalendarView @JvmOverloads constructor(
         private const val TAG = "Pet Calender"
 
         //달력에서 총 보여질 날짜의 수
-        private const val DEFAULT_DAYS_COUNT = 42
+        private const val DEFAULT_DAYS_SIZE = 42
 
         private const val DEFAULT_ACCENT_COLOR = Color.BLACK
         private const val DEFAULT_NORMAL_COLOR = Color.BLACK
