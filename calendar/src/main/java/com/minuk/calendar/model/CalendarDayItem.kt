@@ -1,7 +1,5 @@
 package com.minuk.calendar.model
 
-import java.time.YearMonth
-
 data class CalendarDayItem(
     val year: Int,
     val month: Int,

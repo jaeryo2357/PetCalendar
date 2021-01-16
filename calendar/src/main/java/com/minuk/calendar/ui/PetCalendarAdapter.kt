@@ -53,10 +53,7 @@ internal class PetCalendarAdapter(
         val isWeekend =
             position % DAY_OF_WEEK == DAY_OF_SUNDAY || position % DAY_OF_WEEK == DAY_OF_SATURDAY
 
-        val calendarDayItem = CalendarDayItem(
-            monthConfig.year,
-            month,
-            day,
+        val calendarDayItem = CalendarDayItem(monthConfig.year, month, day,
             isToday,
             isWeekend
         )

@@ -102,7 +102,10 @@ class PetCalendarView @JvmOverloads constructor(
             daysSize += 7 - daysSize % 7
         }
 
-        calendarAdapter?.notifyDataSetChanged()
+        calendarAdapter?.run {
+            monthConfig = createMonthConfig()
+            notifyDataSetChanged()
+        }
     }
 
     private fun initDayRecyclerView() {
@@ -121,10 +124,9 @@ class PetCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun createMonthConfig(): MonthConfig {
-        return MonthConfig(
+    private fun createMonthConfig() = MonthConfig(
             childViewWidth,
-            childViewWidth,
+            childViewHeight,
             daysSize,
             calendar[Calendar.YEAR],
             today,
@@ -133,9 +135,7 @@ class PetCalendarView @JvmOverloads constructor(
             endDayOfLastMonth,
             endDayOfCurrentMonth,
             calendarAccentColor,
-            calendarNormalColor
-        )
-    }
+            calendarNormalColor)
 
     /**
      * 측정된 가로와 세로 길이로 ratio를 계산하여
@@ -161,8 +161,8 @@ class PetCalendarView @JvmOverloads constructor(
         childViewHeight = ((viewHeight - headerViewHeight) / verticalAxisSize).toInt()
 
         calendarAdapter?.run {
-            this.monthConfig = createMonthConfig()
-            this.notifyDataSetChanged()
+            monthConfig = createMonthConfig()
+            notifyDataSetChanged()
         }
     }
 
