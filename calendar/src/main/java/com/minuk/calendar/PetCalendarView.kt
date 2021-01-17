@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
 import com.minuk.calendar.ui.MonthConfig
@@ -98,8 +99,8 @@ class PetCalendarView @JvmOverloads constructor(
         endDayOfLastMonth = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
 
         daysSize = startDayOfWeek + endDayOfCurrentMonth
-        if (daysSize % 7 != 0) {
-            daysSize += 7 - daysSize % 7
+        if (daysSize % DEFAULT_SPAN_SIZE != 0) {
+            daysSize += DEFAULT_SPAN_SIZE - daysSize % DEFAULT_SPAN_SIZE
         }
 
         calendarAdapter?.run {
@@ -120,6 +121,7 @@ class PetCalendarView @JvmOverloads constructor(
         calendarBinding.daysRecyclerview.apply {
             setItemViewCacheSize(10)
             setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context, DEFAULT_SPAN_SIZE)
             adapter = calendarAdapter
         }
     }
@@ -200,6 +202,7 @@ class PetCalendarView @JvmOverloads constructor(
 
         //달력에서 총 보여질 날짜의 수
         private const val DEFAULT_DAYS_SIZE = 42
+        private const val DEFAULT_SPAN_SIZE = 7
 
         private const val DEFAULT_ACCENT_COLOR = Color.BLACK
         private const val DEFAULT_NORMAL_COLOR = Color.BLACK
