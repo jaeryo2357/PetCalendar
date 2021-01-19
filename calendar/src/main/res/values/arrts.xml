@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PetCalendarView">
+        <attr name="calendarColorAccount" format="color"/>
+        <attr name="calendarColorNormal" format="color"/>
+    </declare-styleable>
+</resources>
