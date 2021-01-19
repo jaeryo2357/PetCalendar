@@ -30,4 +30,5 @@ task clean(type: Delete) {
 
 ext {
     room_version = "2.2.6"
+    fragment_version = "1.2.5"
 }

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PetCalendar</string>
+
+    <string name="menu_calendar">calendar</string>
+    <string name="menu_document">document</string>
+    <string name="menu_setting">setting</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
