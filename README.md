@@ -7,6 +7,7 @@
 - MVVM architecture pattern
 - Android Architecture Component(AAC)
   - DataBinding
+  - LiveData
   - ViewModel
   - Room
 - Repository Pattern
