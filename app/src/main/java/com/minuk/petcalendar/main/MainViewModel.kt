@@ -7,8 +7,7 @@ import io.reactivex.subjects.PublishSubject
 
 class MainViewModel @ViewModelInject constructor() : BaseViewModel() {
 
-    val navigateSubject = PublishSubject.create<MainUiType>()
-
+    val navigateSubject = BehaviorSubject.createDefault(MainUiType.CALENDAR)
     val toastSubject = BehaviorSubject.create<String>()
 
     fun changeMainType(type: MainUiType) {

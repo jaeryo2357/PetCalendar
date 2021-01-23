@@ -21,6 +21,10 @@ open class BaseActivity<T: ViewDataBinding>(@LayoutRes val layoutRes: Int): AppC
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, layoutRes)
+
+        initLayout()
+
+        observeViewModel()
     }
 
     override fun onDestroy() {
