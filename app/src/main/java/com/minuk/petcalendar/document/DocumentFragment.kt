@@ -1,24 +1,14 @@
 package com.minuk.petcalendar.document
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import com.minuk.petcalendar.R
+import com.minuk.petcalendar.base.BaseFragment
+import com.minuk.petcalendar.databinding.FragmentDocumentBinding
+
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DocumentFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_document, container, false)
-    }
+class DocumentFragment : BaseFragment<FragmentDocumentBinding>
+    (R.layout.fragment_document) {
 
     companion object {
         @JvmStatic

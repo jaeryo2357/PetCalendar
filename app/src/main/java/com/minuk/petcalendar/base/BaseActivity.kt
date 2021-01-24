@@ -7,11 +7,14 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.lifecycleScope
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 
-open class BaseActivity<T: ViewDataBinding>(@LayoutRes val layoutRes: Int): AppCompatActivity() {
+open class BaseActivity<T : ViewDataBinding>(
+    @LayoutRes private val layoutRes: Int
+) : AppCompatActivity() {
 
     protected lateinit var binding: T
 
@@ -21,6 +24,7 @@ open class BaseActivity<T: ViewDataBinding>(@LayoutRes val layoutRes: Int): AppC
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, layoutRes)
+        binding.lifecycleOwner = this
 
         initLayout()
 
@@ -33,9 +37,9 @@ open class BaseActivity<T: ViewDataBinding>(@LayoutRes val layoutRes: Int): AppC
         compositeDisposable.clear()
     }
 
-    open fun initLayout() { }
+    open fun initLayout() {}
 
-    open fun observeViewModel() { }
+    open fun observeViewModel() {}
 
     protected fun Disposable.addToDisposable() = addTo(compositeDisposable)
 
