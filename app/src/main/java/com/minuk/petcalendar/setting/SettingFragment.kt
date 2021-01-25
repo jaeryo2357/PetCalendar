@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
 
     companion object {
-        @JvmStatic
         fun newInstance() = SettingFragment()
     }
 }

@@ -1,7 +1,5 @@
 package com.minuk.petcalendar.main
 
-import android.util.Log
-
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 
@@ -20,14 +18,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun initLayout() {
-        super.initLayout()
-
         initBottomNavigationView()
     }
 
     override fun observeViewModel() {
-        super.observeViewModel()
-
         observeNavigation()
         observeToast()
     }
@@ -73,8 +67,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 addToBackStack(null)
             }
         }
-
-        Log.d("test", supportFragmentManager.backStackEntryCount.toString())
     }
 
     private fun getFragment(type: MainUiType) = when (type) {

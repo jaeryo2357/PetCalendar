@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 
-open class BaseFragment<T : ViewDataBinding>(
+abstract class BaseFragment<T : ViewDataBinding>(
     @LayoutRes private val layoutRes: Int
 ) : Fragment() {
 
@@ -37,6 +37,7 @@ open class BaseFragment<T : ViewDataBinding>(
         super.onDestroyView()
 
         _binding = null
+        compositeDisposable.clear()
     }
 
     protected fun Disposable.addDisposables() = addTo(compositeDisposable)

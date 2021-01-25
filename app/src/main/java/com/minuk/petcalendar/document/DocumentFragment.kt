@@ -11,7 +11,6 @@ class DocumentFragment : BaseFragment<FragmentDocumentBinding>
     (R.layout.fragment_document) {
 
     companion object {
-        @JvmStatic
         fun newInstance() = DocumentFragment()
     }
 }

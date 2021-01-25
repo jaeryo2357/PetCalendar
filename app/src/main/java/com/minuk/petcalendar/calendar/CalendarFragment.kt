@@ -10,7 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment_calendar) {
 
     companion object {
-        @JvmStatic
         fun newInstance() = CalendarFragment()
     }
 }

@@ -5,18 +5,15 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 
-open class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     private val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCleared() {
         super.onCleared()
 
-        onViewModelCleared()
-        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
-
-    protected open fun onViewModelCleared() {}
 
     protected fun Disposable.addToDisposable() = addTo(compositeDisposable)
 }

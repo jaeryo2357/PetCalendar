@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 
-open class BaseActivity<T : ViewDataBinding>(
+abstract class BaseActivity<T : ViewDataBinding>(
     @LayoutRes private val layoutRes: Int
 ) : AppCompatActivity() {
 
@@ -34,12 +34,12 @@ open class BaseActivity<T : ViewDataBinding>(
     override fun onDestroy() {
         super.onDestroy()
 
-        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
-    open fun initLayout() {}
+    protected open fun initLayout() {}
 
-    open fun observeViewModel() {}
+    protected open fun observeViewModel() {}
 
     protected fun Disposable.addToDisposable() = addTo(compositeDisposable)
 
