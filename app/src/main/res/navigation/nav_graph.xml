@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navGraph"
+    app:startDestination="@id/action_calendar">
+
+    <fragment
+        android:id="@+id/action_document"
+        android:name="com.minuk.petcalendar.document.DocumentFragment"
+        android:label="DocumentFragment"
+        tools:layout="@layout/fragment_document"/>
+    <fragment
+        android:id="@+id/action_calendar"
+        android:name="com.minuk.petcalendar.calendar.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar"/>
+    <fragment
+        android:id="@+id/action_setting"
+        android:name="com.minuk.petcalendar.setting.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_setting"/>
+</navigation>
