@@ -18,7 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initBottomNavigationView() {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.mainContainer) as NavHostFragment
 
         binding.mainNavigation.setupWithNavController(navHostFragment.navController)
     }
