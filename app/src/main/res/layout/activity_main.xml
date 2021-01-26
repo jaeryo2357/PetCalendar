@@ -13,11 +13,11 @@
         tools:context=".main.MainActivity">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/main_container"
+            android:id="@+id/mainContainer"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/main_navigation"
+            app:layout_constraintBottom_toTopOf="@+id/mainNavigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +26,7 @@
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/main_navigation"
+            android:id="@+id/mainNavigation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:itemIconTint="@drawable/bg_selection_color"
