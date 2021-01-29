@@ -20,7 +20,7 @@
             android:layout_marginTop="20dp"
             android:background="?android:selectableItemBackground"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/main_calendarDate_textSize"
+            android:textSize="@dimen/main_calendardate_textsize"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_down"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintStart_toEndOf="@+id/textView" />
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            tools:ignore="ContentDescription" />
 
         <com.minuk.calendar.PetCalendarView
             android:layout_width="0dp"
