@@ -9,6 +9,8 @@
   - DataBinding
   - ViewModel
   - Room
+- Android Jetpack
+  - Navigation Component
 - Repository Pattern
 
 ## Third party
