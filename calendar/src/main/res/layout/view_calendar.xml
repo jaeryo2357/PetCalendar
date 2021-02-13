@@ -27,7 +27,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_sunday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/monday_textview"
@@ -37,7 +37,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_monday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/tuesday_textview"
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_tuesday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/wednesday_textview"
@@ -57,7 +57,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_wednesday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/thursday_textview"
@@ -67,7 +67,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_thursday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/friday_textview"
@@ -77,7 +77,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_friday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
                 android:id="@+id/saturday_textview"
@@ -87,7 +87,7 @@
                 android:gravity="center"
                 android:text="@string/calendar_saturday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
         </LinearLayout>
 
@@ -102,7 +102,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             tools:itemCount="41"
-            tools:listitem="@layout/item_calendar" />
+            tools:listitem="@layout/item_calendar_month" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

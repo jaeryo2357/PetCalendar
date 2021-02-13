@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
-import com.minuk.calendar.ui.MonthConfig
-import com.minuk.calendar.ui.PetCalendarAdapter
-import java.time.Month
+import com.minuk.calendar.adapter.MonthConfig
+import com.minuk.calendar.adapter.PetCalendarAdapter
 
 import java.util.*
 
@@ -105,10 +104,6 @@ class PetCalendarView @JvmOverloads constructor(
             daysSize += DEFAULT_SPAN_SIZE - daysSize % DEFAULT_SPAN_SIZE
         }
 
-        calendarAdapter?.run {
-            monthConfig = createMonthConfig()
-            notifyDataSetChanged()
-        }
     }
 
     private fun initDayRecyclerView() {
@@ -172,10 +167,7 @@ class PetCalendarView @JvmOverloads constructor(
 
         childViewHeight = ((viewHeight - headerViewHeight) / verticalAxisSize).toInt()
 
-        calendarAdapter?.run {
-            monthConfig = createMonthConfig()
-            notifyDataSetChanged()
-        }
+        initDayRecyclerView()
     }
 
     fun setCalendarDate(

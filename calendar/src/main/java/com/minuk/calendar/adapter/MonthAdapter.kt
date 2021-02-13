@@ -1,4 +1,4 @@
-package com.minuk.calendar.ui
+package com.minuk.calendar.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import com.minuk.calendar.PetCalendarView
-import com.minuk.calendar.databinding.ItemCalendarBinding
-import com.minuk.calendar.model.CalendarDayItem
+import com.minuk.calendar.databinding.ItemCalendarMonthBinding
+import com.minuk.calendar.model.Date
+import com.minuk.calendar.viewholder.DayConfig
+import com.minuk.calendar.viewholder.PetCalenderViewHolder
 
 internal data class MonthConfig(
     val dayWidth: Int,
@@ -24,8 +26,8 @@ internal data class MonthConfig(
 )
 
 internal class PetCalendarAdapter(
-    var monthConfig: MonthConfig,
-    var eventHandler: PetCalendarView.PetCalendarEventHandler?
+    private val monthConfig: MonthConfig,
+    private val eventHandler: PetCalendarView.PetCalendarEventHandler?
 ) : RecyclerView.Adapter<PetCalenderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetCalenderViewHolder {
@@ -38,7 +40,7 @@ internal class PetCalendarAdapter(
         )
 
         return PetCalenderViewHolder(
-            ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            ItemCalendarMonthBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             dayConfig,
             eventHandler
         )
@@ -54,7 +56,7 @@ internal class PetCalendarAdapter(
 
         val isCurrentMonth = monthConfig.currentMonth == month
 
-        val calendarDayItem = CalendarDayItem(monthConfig.year, month, day,
+        val calendarDayItem = Date(monthConfig.year, month, day,
             isToday,
             isSunday,
             isCurrentMonth

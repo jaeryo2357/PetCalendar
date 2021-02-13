@@ -1,4 +1,4 @@
-package com.minuk.calendar.ui
+package com.minuk.calendar.viewholder
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.minuk.calendar.PetCalendarView
 import com.minuk.calendar.R
-import com.minuk.calendar.databinding.ItemCalendarBinding
-import com.minuk.calendar.model.CalendarDayItem
+import com.minuk.calendar.databinding.ItemCalendarMonthBinding
+import com.minuk.calendar.model.Date
 
 internal data class DayConfig(
     val dayWidth: Int,
@@ -19,7 +19,7 @@ internal data class DayConfig(
 )
 
 internal class PetCalenderViewHolder(
-    private val binding: ItemCalendarBinding,
+    private val binding: ItemCalendarMonthBinding,
     private val config: DayConfig,
     private val eventHandler: PetCalendarView.PetCalendarEventHandler?
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -38,12 +38,12 @@ internal class PetCalenderViewHolder(
         binding.root.layoutParams = layoutParams
     }
 
-    fun bindDayView(dayItem: CalendarDayItem) {
+    fun bindDayView(date: Date) {
 
-        binding.dayCalendarTv.text = "${dayItem.day}"
+        binding.dayCalendarTv.text = "${date.day}"
 
         //현재 요일의 경우 동그라미 이미지 표시
-        if (dayItem.isToday) {
+        if (date.isToday) {
             val drawable = ResourcesCompat.getDrawable(
                 itemView.resources,
                 R.drawable.bg_date_selected, null
@@ -57,12 +57,12 @@ internal class PetCalenderViewHolder(
         }
 
         val textColor = when {
-            dayItem.isToday -> Color.WHITE
-            dayItem.isSunday -> ContextCompat.getColor(itemView.context, R.color.calendar_sunday)
+            date.isToday -> Color.WHITE
+            date.isSunday -> ContextCompat.getColor(itemView.context, R.color.calendar_sunday)
             else -> config.calendarNormalColor
         }
 
-        if (dayItem.isCurrentMonth) {
+        if (date.isCurrentMonth) {
             itemView.alpha = 1.0f
         } else {
             itemView.alpha = 0.4f
@@ -71,7 +71,7 @@ internal class PetCalenderViewHolder(
         binding.dayCalendarTv.setTextColor(textColor)
 
         itemView.setOnClickListener {
-            eventHandler?.onDayClick(dayItem.year, dayItem.month, dayItem.day)
+            eventHandler?.onDayClick(date.year, date.month, date.day)
         }
     }
 }
