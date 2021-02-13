@@ -5,5 +5,6 @@ data class CalendarDayItem(
     val month: Int,
     val day: Int,
     val isToday: Boolean = false,
-    val isWeekend: Boolean = false
+    val isSunday: Boolean = false,
+    val isCurrentMonth: Boolean = false
 )

@@ -1,6 +1,7 @@
 package com.minuk.calendar.ui
 
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -55,14 +56,19 @@ internal class PetCalenderViewHolder(
             binding.dayCalendarTv.background = null
         }
 
-
-        if (dayItem.isToday) {
-            binding.dayCalendarTv.setTextColor(Color.WHITE)
-        } else if (dayItem.isWeekend) {
-            binding.dayCalendarTv.setTextColor(config.calendarAccentColor)
-        } else {
-            binding.dayCalendarTv.setTextColor(config.calendarNormalColor)
+        val textColor = when {
+            dayItem.isToday -> Color.WHITE
+            dayItem.isSunday -> ContextCompat.getColor(itemView.context, R.color.calendar_sunday)
+            else -> config.calendarNormalColor
         }
+
+        if (dayItem.isCurrentMonth) {
+            itemView.alpha = 1.0f
+        } else {
+            itemView.alpha = 0.4f
+        }
+
+        binding.dayCalendarTv.setTextColor(textColor)
 
         itemView.setOnClickListener {
             eventHandler?.onDayClick(dayItem.year, dayItem.month, dayItem.day)

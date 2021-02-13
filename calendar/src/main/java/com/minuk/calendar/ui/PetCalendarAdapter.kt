@@ -50,12 +50,14 @@ internal class PetCalendarAdapter(
 
         val isToday = position == monthConfig.today + monthConfig.startDayOfWeek - 1
 
-        val isWeekend =
-            position % DAY_OF_WEEK == DAY_OF_SUNDAY || position % DAY_OF_WEEK == DAY_OF_SATURDAY
+        val isSunday = position % DAY_OF_WEEK == DAY_OF_SUNDAY
+
+        val isCurrentMonth = monthConfig.currentMonth == month
 
         val calendarDayItem = CalendarDayItem(monthConfig.year, month, day,
             isToday,
-            isWeekend
+            isSunday,
+            isCurrentMonth
         )
 
         holder.bindDayView(calendarDayItem)
@@ -76,15 +78,14 @@ internal class PetCalendarAdapter(
                 (monthConfig.endDayOfLastMonth - (monthConfig.startDayOfWeek - position - 1))
 
         position > (monthConfig.endDayOfCurrentMonth + monthConfig.startDayOfWeek - 1) ->
-            monthConfig.currentMonth to (position - (monthConfig.endDayOfCurrentMonth + monthConfig.startDayOfWeek) + 1)
+            monthConfig.currentMonth + 1 to (position - (monthConfig.endDayOfCurrentMonth + monthConfig.startDayOfWeek) + 1)
 
         else ->
-            monthConfig.currentMonth + 1 to (position - monthConfig.startDayOfWeek + 1)
+            monthConfig.currentMonth to (position - monthConfig.startDayOfWeek + 1)
     }
 
     companion object {
         const val DAY_OF_SUNDAY = 0
-        const val DAY_OF_SATURDAY = 6
         const val DAY_OF_WEEK = 7
     }
 }
