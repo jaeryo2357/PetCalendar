@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
@@ -123,6 +125,14 @@ class PetCalendarView @JvmOverloads constructor(
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, DEFAULT_SPAN_SIZE)
             adapter = calendarAdapter
+
+            val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
+
+            ResourcesCompat.getDrawable(resources, R.drawable.bg_divider, null)?.let {
+                dividerItemDecoration.setDrawable(it)
+            }
+
+            addItemDecoration(dividerItemDecoration)
         }
     }
 
