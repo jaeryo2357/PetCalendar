@@ -6,8 +6,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.minuk.petcalendar.R
 import com.minuk.petcalendar.base.BaseFragment
-import com.minuk.petcalendar.data.Date
 import com.minuk.petcalendar.databinding.FragmentCalendarBinding
+
+import com.minuk.calendar.data.Date
 
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -55,7 +56,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
 
     private fun getCurrentMonthString(calendarDate: Date) =
         requireContext().getString(R.string.format_calendar_date,
-            calendarDate.year, calendarDate.monthOfYear + 1)
+            calendarDate.year, calendarDate.month + 1)
 
     private fun showDatePickerDialog() {
         val date = calendarViewModel.calendarDate.value
@@ -63,7 +64,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         date?.let {
             val dialog = DatePickerDialog(requireContext(),
                 datePickerListener,
-                date.year, date.monthOfYear, date.dayOfMonth)
+                date.year, date.month, date.day)
 
             dialog.show()
         }

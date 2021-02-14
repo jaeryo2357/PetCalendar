@@ -1,4 +1,4 @@
-package com.minuk.calendar.ui
+package com.minuk.calendar.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import com.minuk.calendar.PetCalendarView
-import com.minuk.calendar.databinding.ItemCalendarBinding
-import com.minuk.calendar.model.CalendarDayItem
+import com.minuk.calendar.databinding.ItemCalendarDayBinding
+import com.minuk.calendar.data.Date
+import com.minuk.calendar.data.Event
+import com.minuk.calendar.viewholder.DayConfig
+import com.minuk.calendar.viewholder.PetCalenderViewHolder
 
 internal data class MonthConfig(
     val dayWidth: Int,
@@ -20,12 +23,14 @@ internal data class MonthConfig(
     val endDayOfLastMonth: Int,
     val endDayOfCurrentMonth: Int,
     val calendarAccentColor: Int,
-    val calendarNormalColor: Int
+    val calendarNormalColor: Int,
+    val monthEventList: List<Event>?,
+    val maxEventCount: Int,
 )
 
 internal class PetCalendarAdapter(
-    var monthConfig: MonthConfig,
-    var eventHandler: PetCalendarView.PetCalendarEventHandler?
+    private val monthConfig: MonthConfig,
+    private val eventHandler: PetCalendarView.PetCalendarEventHandler?
 ) : RecyclerView.Adapter<PetCalenderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetCalenderViewHolder {
@@ -38,7 +43,7 @@ internal class PetCalendarAdapter(
         )
 
         return PetCalenderViewHolder(
-            ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            ItemCalendarDayBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             dayConfig,
             eventHandler
         )
@@ -54,17 +59,40 @@ internal class PetCalendarAdapter(
 
         val isCurrentMonth = monthConfig.currentMonth == month
 
-        val calendarDayItem = CalendarDayItem(monthConfig.year, month, day,
+        val date = Date(monthConfig.year, month, day,
             isToday,
             isSunday,
             isCurrentMonth
         )
 
-        holder.bindDayView(calendarDayItem)
+        holder.bindDate(date)
+
+        monthConfig.monthEventList?.let { eventList ->
+
+            val filterEventList = filterEvent(eventList, date)
+
+            if (filterEventList.isNotEmpty()) {
+                holder.bindEvent(monthConfig.maxEventCount, filterEventList)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
         return monthConfig.daysSize
+    }
+
+    private fun filterEvent(eventList: List<Event>?, date: Date) : List<Event> {
+        val filteringEventList = mutableListOf<Event>()
+
+        eventList?.forEach { event ->
+            if (event.year == date.year &&
+                    event.month == date.month &&
+                    event.dayOfMonth == date.day) {
+                filteringEventList.add(event)
+            }
+        }
+
+        return filteringEventList
     }
 
     /**

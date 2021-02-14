@@ -20,79 +20,79 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/sunday_textview"
+                android:id="@+id/sundayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_sunday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/monday_textview"
+                android:id="@+id/mondayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_monday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/tuesday_textview"
+                android:id="@+id/tuesdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_tuesday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/wednesday_textview"
+                android:id="@+id/wednesdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_wednesday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/thursday_textview"
+                android:id="@+id/thursdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_thursday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/friday_textview"
+                android:id="@+id/fridayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_friday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
             <TextView
-                android:id="@+id/saturday_textview"
+                android:id="@+id/saturdayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/calendar_saturday"
                 android:textColor="@android:color/black"
-                android:textSize="14dp" />
+                android:textSize="@dimen/size_calendar_text" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/days_recyclerview"
+            android:id="@+id/monthRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:overScrollMode="never"
@@ -102,7 +102,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             tools:itemCount="41"
-            tools:listitem="@layout/item_calendar" />
+            tools:listitem="@layout/item_calendar_day" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
