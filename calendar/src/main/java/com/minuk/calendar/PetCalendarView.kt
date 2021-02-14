@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
-import com.minuk.calendar.ui.MonthConfig
-import com.minuk.calendar.ui.PetCalendarAdapter
-import java.time.Month
+import com.minuk.calendar.adapter.MonthConfig
+import com.minuk.calendar.adapter.PetCalendarAdapter
+import com.minuk.calendar.data.Event
 
 import java.util.*
 
@@ -39,6 +39,7 @@ class PetCalendarView @JvmOverloads constructor(
     private var childViewWidth = 0
     private var childViewHeight = 0
     private var headerViewHeight = 0f
+    private var maxEventCount = 0
 
     //Ui data property
     private var calendarAccentColor: Int = 0
@@ -48,10 +49,13 @@ class PetCalendarView @JvmOverloads constructor(
 
     private var calendarAdapter: PetCalendarAdapter? = null
 
+    private var monthEventList: List<Event>? = null
+
     init {
         initLayout(context)
         initCalendarColor(attrs)
         initHeaderSize()
+        initEventCount()
 
         initCalendarData()
         initDayRecyclerView()
@@ -78,12 +82,20 @@ class PetCalendarView @JvmOverloads constructor(
 
         typedArray.recycle()
 
-        calendarBinding.sundayTextview.setTextColor(calendarAccentColor)
-        calendarBinding.saturdayTextview.setTextColor(calendarAccentColor)
+        calendarBinding.sundayTextView.setTextColor(calendarAccentColor)
+        calendarBinding.saturdayTextView.setTextColor(calendarAccentColor)
     }
 
     private fun initHeaderSize() {
         headerViewHeight = resources.getDimension(R.dimen.height_header)
+    }
+
+    private fun initEventCount() {
+        val eventRecyclerviewHeight = childViewHeight -
+                resources.getDimension(R.dimen.height_dey_tv)
+
+        maxEventCount = (eventRecyclerviewHeight /
+                resources.getDimension(R.dimen.height_calendar_event)).toInt() + 1
     }
 
     private fun initCalendarData() {
@@ -104,11 +116,6 @@ class PetCalendarView @JvmOverloads constructor(
         if (daysSize % DEFAULT_SPAN_SIZE != 0) {
             daysSize += DEFAULT_SPAN_SIZE - daysSize % DEFAULT_SPAN_SIZE
         }
-
-        calendarAdapter?.run {
-            monthConfig = createMonthConfig()
-            notifyDataSetChanged()
-        }
     }
 
     private fun initDayRecyclerView() {
@@ -120,34 +127,29 @@ class PetCalendarView @JvmOverloads constructor(
             eventHandler
         )
 
-        calendarBinding.daysRecyclerview.apply {
+        calendarBinding.monthRecyclerView.apply {
             setItemViewCacheSize(10)
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, DEFAULT_SPAN_SIZE)
             adapter = calendarAdapter
-
-            val dividerItemDecoration = DividerItemDecoration(context, VERTICAL)
-
-            ResourcesCompat.getDrawable(resources, R.drawable.bg_divider, null)?.let {
-                dividerItemDecoration.setDrawable(it)
-            }
-
-            addItemDecoration(dividerItemDecoration)
         }
     }
 
     private fun createMonthConfig() = MonthConfig(
-            childViewWidth,
-            childViewHeight,
-            daysSize,
-            calendar[Calendar.YEAR],
-            today,
-            currentMonth,
-            startDayOfWeek,
-            endDayOfLastMonth,
-            endDayOfCurrentMonth,
-            calendarAccentColor,
-            calendarNormalColor)
+        childViewWidth,
+        childViewHeight,
+        daysSize,
+        calendar[Calendar.YEAR],
+        today,
+        currentMonth,
+        startDayOfWeek,
+        endDayOfLastMonth,
+        endDayOfCurrentMonth,
+        calendarAccentColor,
+        calendarNormalColor,
+        monthEventList,
+        maxEventCount
+    )
 
     /**
      * 측정된 가로와 세로 길이로 ratio를 계산하여
@@ -172,10 +174,8 @@ class PetCalendarView @JvmOverloads constructor(
 
         childViewHeight = ((viewHeight - headerViewHeight) / verticalAxisSize).toInt()
 
-        calendarAdapter?.run {
-            monthConfig = createMonthConfig()
-            notifyDataSetChanged()
-        }
+        initEventCount()
+        initDayRecyclerView()
     }
 
     fun setCalendarDate(
@@ -200,6 +200,14 @@ class PetCalendarView @JvmOverloads constructor(
 
     fun setEventHandler(eventHandler: PetCalendarEventHandler) {
         this.eventHandler = eventHandler
+
+        initDayRecyclerView()
+    }
+
+    fun emitEventList(monthEventList: List<Event>) {
+        this.monthEventList = monthEventList
+
+        initDayRecyclerView()
     }
 
     interface PetCalendarEventHandler {

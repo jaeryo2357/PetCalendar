@@ -1,15 +1,19 @@
-package com.minuk.calendar.ui
+package com.minuk.calendar.viewholder
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.minuk.calendar.PetCalendarView
 import com.minuk.calendar.R
-import com.minuk.calendar.databinding.ItemCalendarBinding
-import com.minuk.calendar.model.CalendarDayItem
+import com.minuk.calendar.adapter.DayEventAdapter
+import com.minuk.calendar.adapter.EventConfig
+import com.minuk.calendar.databinding.ItemCalendarDayBinding
+import com.minuk.calendar.data.Date
+import com.minuk.calendar.data.Event
 
 internal data class DayConfig(
     val dayWidth: Int,
@@ -19,7 +23,7 @@ internal data class DayConfig(
 )
 
 internal class PetCalenderViewHolder(
-    private val binding: ItemCalendarBinding,
+    private val binding: ItemCalendarDayBinding,
     private val config: DayConfig,
     private val eventHandler: PetCalendarView.PetCalendarEventHandler?
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -38,12 +42,12 @@ internal class PetCalenderViewHolder(
         binding.root.layoutParams = layoutParams
     }
 
-    fun bindDayView(dayItem: CalendarDayItem) {
+    fun bindDate(date: Date) {
 
-        binding.dayCalendarTv.text = "${dayItem.day}"
+        binding.dayTextView.text = "${date.day}"
 
         //현재 요일의 경우 동그라미 이미지 표시
-        if (dayItem.isToday) {
+        if (date.isToday) {
             val drawable = ResourcesCompat.getDrawable(
                 itemView.resources,
                 R.drawable.bg_date_selected, null
@@ -51,27 +55,39 @@ internal class PetCalenderViewHolder(
                 DrawableCompat.setTint(this, config.calendarAccentColor)
             }
 
-            binding.dayCalendarTv.background = drawable
+            binding.dayTextView.background = drawable
         } else {
-            binding.dayCalendarTv.background = null
+            binding.dayTextView.background = null
         }
 
         val textColor = when {
-            dayItem.isToday -> Color.WHITE
-            dayItem.isSunday -> ContextCompat.getColor(itemView.context, R.color.calendar_sunday)
+            date.isToday -> Color.WHITE
+            date.isSunday -> ContextCompat.getColor(itemView.context, R.color.calendar_sunday)
             else -> config.calendarNormalColor
         }
 
-        if (dayItem.isCurrentMonth) {
-            itemView.alpha = 1.0f
+        if (date.isCurrentMonth) {
+            binding.dayLayout.alpha = 1.0f
         } else {
-            itemView.alpha = 0.4f
+            binding.dayLayout.alpha = 0.4f
         }
 
-        binding.dayCalendarTv.setTextColor(textColor)
+        binding.dayTextView.setTextColor(textColor)
 
         itemView.setOnClickListener {
-            eventHandler?.onDayClick(dayItem.year, dayItem.month, dayItem.day)
+            eventHandler?.onDayClick(date.year, date.month, date.day)
+        }
+    }
+
+    fun bindEvent(maxEventCount: Int, eventList: List<Event>) {
+
+        val eventConfig = EventConfig(maxEventCount, eventList)
+
+        val adapter = DayEventAdapter(eventConfig)
+
+        binding.dayEventRecyclerView.apply {
+            layoutManager = LinearLayoutManager(itemView.context)
+            this.adapter = adapter
         }
     }
 }

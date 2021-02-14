@@ -26,7 +26,7 @@
             android:background="?android:selectableItemBackground"
             android:onClick="@{() -> viewModel.clickCurrentMonth()}"
             android:padding="5dp"
-            android:text="@{viewModel.currentMonthString}"
+            android:text="@{viewModel.currentMonthText}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/main_calendardate_textsize"
             android:textStyle="bold"
