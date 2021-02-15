@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import androidx.annotation.Px
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
@@ -32,10 +33,20 @@ class PetCalendarView @JvmOverloads constructor(
     private var daysSize = DEFAULT_DAYS_SIZE
 
     //custom view property
+
+    @Px
     private var viewWidth = 0
+
+    @Px
     private var viewHeight = 0
+
+    @Px
     private var childViewWidth = 0
+
+    @Px
     private var childViewHeight = 0
+
+    @Px
     private var headerViewHeight = 0f
     private var maxEventCount = 0
 
@@ -195,14 +206,12 @@ class PetCalendarView @JvmOverloads constructor(
 
     fun setEventHandler(eventHandler: PetCalendarEventHandler) {
         this.eventHandler = eventHandler
-
-        initDayRecyclerView()
+        calendarAdapter?.setEventHandler(eventHandler)
     }
 
-    fun emitEventList(monthEventList: List<Event>) {
+    fun setEventList(monthEventList: List<Event>) {
         this.monthEventList = monthEventList
-
-        initDayRecyclerView()
+        calendarAdapter?.setEventList(monthEventList)
     }
 
     interface PetCalendarEventHandler {

@@ -37,7 +37,6 @@ internal class PetCalenderViewHolder(
             width = config.dayWidth
             height = config.dayHeight
         }
-        // Log.d(TAG, itemViewRatio)
 
         binding.root.layoutParams = layoutParams
     }
@@ -66,11 +65,7 @@ internal class PetCalenderViewHolder(
             else -> config.calendarNormalColor
         }
 
-        if (date.isCurrentMonth) {
-            binding.dayLayout.alpha = 1.0f
-        } else {
-            binding.dayLayout.alpha = 0.4f
-        }
+        binding.dayLayout.alpha = if (date.isCurrentMonth) 1.0f else 0.4f
 
         binding.dayTextView.setTextColor(textColor)
 

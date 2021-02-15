@@ -34,7 +34,11 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
     private fun observeViewModel() {
         calendarViewModel.currentMonthEvent.observe(viewLifecycleOwner) { event ->
             if (event) {
-                showDatePickerDialog()
+
+                val date = calendarViewModel.calendarDate.value
+                date?.let {
+                    showDatePickerDialog(it)
+                }
             }
         }
     }
@@ -55,19 +59,19 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
 
 
     private fun getCurrentMonthString(calendarDate: Date) =
-        requireContext().getString(R.string.format_calendar_date,
-            calendarDate.year, calendarDate.month + 1)
+        requireContext().getString(
+            R.string.format_calendar_date,
+            calendarDate.year, calendarDate.month + 1
+        )
 
-    private fun showDatePickerDialog() {
-        val date = calendarViewModel.calendarDate.value
+    private fun showDatePickerDialog(date: Date) {
+        val dialog = DatePickerDialog(
+            requireContext(),
+            datePickerListener,
+            date.year, date.month, date.day
+        )
 
-        date?.let {
-            val dialog = DatePickerDialog(requireContext(),
-                datePickerListener,
-                date.year, date.month, date.day)
-
-            dialog.show()
-        }
+        dialog.show()
     }
 
 
