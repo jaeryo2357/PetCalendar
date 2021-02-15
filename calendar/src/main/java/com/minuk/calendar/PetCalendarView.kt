@@ -5,8 +5,6 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 
 import com.minuk.calendar.databinding.ViewCalendarBinding
@@ -81,9 +79,6 @@ class PetCalendarView @JvmOverloads constructor(
         )
 
         typedArray.recycle()
-
-        calendarBinding.sundayTextView.setTextColor(calendarAccentColor)
-        calendarBinding.saturdayTextView.setTextColor(calendarAccentColor)
     }
 
     private fun initHeaderSize() {
@@ -92,7 +87,7 @@ class PetCalendarView @JvmOverloads constructor(
 
     private fun initEventCount() {
         val eventRecyclerviewHeight = childViewHeight -
-                resources.getDimension(R.dimen.height_dey_tv)
+                resources.getDimension(R.dimen.height_day_tv)
 
         maxEventCount = (eventRecyclerviewHeight /
                 resources.getDimension(R.dimen.height_calendar_event)).toInt() + 1
