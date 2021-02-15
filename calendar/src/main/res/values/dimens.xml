@@ -2,7 +2,7 @@
 <resources>
     <dimen name="height_header">18dp</dimen>
     <dimen name="width_day_tv">30dp</dimen>
-    <dimen name="height_dey_tv">30dp</dimen>
+    <dimen name="height_day_tv">30dp</dimen>
     <dimen name="corner_radius_event">6dp</dimen>
     <dimen name="size_calendar_text">14dp</dimen>
     <dimen name="size_calendar_event_text">12dp</dimen>

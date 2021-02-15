@@ -15,13 +15,14 @@ internal class EventViewHolder(
         binding.eventTextView.apply {
             text = event.eventText
             setTextColor(EVENT_TEXT_COLOR)
-            background = ResourcesCompat.getDrawable(itemView.resources, R.drawable.bg_day_event, null)
+            background =
+                ResourcesCompat.getDrawable(itemView.resources, R.drawable.bg_day_event, null)
         }
     }
 
-    fun bindEventMore(lastEventSize: Int) {
+    fun bindEventMore(remainEventSize: Int) {
         binding.eventTextView.apply {
-            text = itemView.context.getString(R.string.event_more, lastEventSize)
+            text = itemView.context.getString(R.string.event_more, remainEventSize)
             setTextColor(EVENT_MORE_TEXT_COLOR)
             background = null
         }

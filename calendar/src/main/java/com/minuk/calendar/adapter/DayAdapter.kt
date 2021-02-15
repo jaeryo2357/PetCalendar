@@ -59,7 +59,8 @@ internal class PetCalendarAdapter(
 
         val isCurrentMonth = monthConfig.currentMonth == month
 
-        val date = Date(monthConfig.year, month, day,
+        val date = Date(
+            monthConfig.year, month, day,
             isToday,
             isSunday,
             isCurrentMonth
@@ -81,13 +82,14 @@ internal class PetCalendarAdapter(
         return monthConfig.daysSize
     }
 
-    private fun filterEvent(eventList: List<Event>?, date: Date) : List<Event> {
+    private fun filterEvent(eventList: List<Event>?, date: Date): List<Event> {
         val filteringEventList = mutableListOf<Event>()
 
         eventList?.forEach { event ->
             if (event.year == date.year &&
-                    event.month == date.month &&
-                    event.dayOfMonth == date.day) {
+                event.month == date.month &&
+                event.dayOfMonth == date.day
+            ) {
                 filteringEventList.add(event)
             }
         }
