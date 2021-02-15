@@ -24,13 +24,13 @@ internal data class MonthConfig(
     val endDayOfCurrentMonth: Int,
     val calendarAccentColor: Int,
     val calendarNormalColor: Int,
-    val monthEventList: List<Event>?,
+    var monthEventList: List<Event>?,
     val maxEventCount: Int,
 )
 
 internal class PetCalendarAdapter(
     private val monthConfig: MonthConfig,
-    private val eventHandler: PetCalendarView.PetCalendarEventHandler?
+    private var eventHandler: PetCalendarView.PetCalendarEventHandler?
 ) : RecyclerView.Adapter<PetCalenderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetCalenderViewHolder {
@@ -70,32 +70,33 @@ internal class PetCalendarAdapter(
 
         monthConfig.monthEventList?.let { eventList ->
 
-            val filterEventList = filterEvent(eventList, date)
+            val filteredEventList = filterEvent(eventList, date)
 
-            if (filterEventList.isNotEmpty()) {
-                holder.bindEvent(monthConfig.maxEventCount, filterEventList)
+            if (filteredEventList.isNotEmpty()) {
+                holder.bindEvent(monthConfig.maxEventCount, filteredEventList)
             }
         }
+    }
+
+    fun setEventList(eventList: List<Event>) {
+        monthConfig.monthEventList = eventList
+        notifyDataSetChanged()
+    }
+
+    fun setEventHandler(eventHandler: PetCalendarView.PetCalendarEventHandler) {
+        this.eventHandler = eventHandler
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
         return monthConfig.daysSize
     }
 
-    private fun filterEvent(eventList: List<Event>?, date: Date): List<Event> {
-        val filteringEventList = mutableListOf<Event>()
-
-        eventList?.forEach { event ->
-            if (event.year == date.year &&
+    private fun filterEvent(eventList: List<Event>?, date: Date) = eventList?.filter { event ->
+        event.year == date.year &&
                 event.month == date.month &&
                 event.dayOfMonth == date.day
-            ) {
-                filteringEventList.add(event)
-            }
-        }
-
-        return filteringEventList
-    }
+    } ?: emptyList()
 
     /**
      * position 값으로 날짜 측정하는 함수

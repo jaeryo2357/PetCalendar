@@ -30,7 +30,7 @@ internal class DayEventAdapter(
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        if (position + 1 != eventConfig.maxEventCount) {
+        if (position < eventConfig.maxEventCount) {
             holder.bindEvent(eventConfig.eventList[position])
         } else {
             holder.bindEventMore(eventConfig.eventList.size - eventConfig.maxEventCount + 1)

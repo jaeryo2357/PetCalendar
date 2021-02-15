@@ -39,9 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_down"
-            app:layout_constraintBottom_toBottomOf="@+id/currentMonthTextView"
-            app:layout_constraintStart_toEndOf="@+id/currentMonthTextView"
-            app:layout_constraintTop_toTopOf="@+id/currentMonthTextView"
+            app:layout_constraintBottom_toBottomOf="@id/currentMonthTextView"
+            app:layout_constraintStart_toEndOf="@id/currentMonthTextView"
+            app:layout_constraintTop_toTopOf="@id/currentMonthTextView"
             tools:ignore="ContentDescription" />
 
         <com.minuk.calendar.PetCalendarView
@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentMonthTextView" />
+            app:layout_constraintTop_toBottomOf="@id/currentMonthTextView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
