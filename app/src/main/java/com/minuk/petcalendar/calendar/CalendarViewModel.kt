@@ -28,7 +28,7 @@ class CalendarViewModel @ViewModelInject constructor(
         _currentMonthText.value = currentMonthText
     }
 
-    fun clickCurrentMonth() {
+    fun setCurrentMonth() {
         _currentMonthEvent.value = true
     }
 }
