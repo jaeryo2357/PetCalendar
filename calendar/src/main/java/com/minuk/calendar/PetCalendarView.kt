@@ -50,7 +50,6 @@ class PetCalendarView @JvmOverloads constructor(
         initLayout(context)
         initCalendarColor(attrs)
         initHeaderSize()
-
         initCalendarData()
         initDayRecyclerView()
     }
