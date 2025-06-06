@@ -6,5 +6,5 @@ pluginManagement {
     }
 }
 
-include ':app'
+include(":app")
 rootProject.name = "PetCalendar"
