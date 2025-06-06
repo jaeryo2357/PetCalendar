@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         gradlePluginPortal()
@@ -6,5 +7,5 @@ pluginManagement {
     }
 }
 
-include(":app")
 rootProject.name = "PetCalendar"
+include(":app")

@@ -7,7 +7,6 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 material = "1.12.0"
 hilt = "2.56"
-
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
