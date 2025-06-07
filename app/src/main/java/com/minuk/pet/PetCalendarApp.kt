@@ -1,4 +1,4 @@
-package com.minuk.petcalendar
+package com.minuk.pet
 
 import android.app.Application
 
