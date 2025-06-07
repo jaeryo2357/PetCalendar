@@ -1,5 +1,6 @@
 [versions]
 androidGradlePlugin = "8.7.3"
+androidDesugarJdkLibs = "2.1.4"
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 espressoCore = "3.6.1"
@@ -10,6 +11,7 @@ hilt = "2.56"
 kotlin = "2.0.0"
 
 [libraries]
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
@@ -25,3 +27,7 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
+
+# Plugins defined by this project
+pet-android-application = { id = "pet.android.application", version = "unspecified"  }

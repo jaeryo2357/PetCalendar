@@ -1,15 +1,13 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.pet.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.minuk.petcalendar"
-    compileSdk = 34
+    namespace = "com.minuk.pet"
 
     defaultConfig {
-        applicationId = "com.minuk.petcalendar"
-        minSdk = 21
-        targetSdk = 34
+        applicationId = "com.minuk.pet"
         versionCode = 1
         versionName = "1.0"
 
@@ -25,11 +23,6 @@ android {
 
     buildFeatures {
         dataBinding = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
