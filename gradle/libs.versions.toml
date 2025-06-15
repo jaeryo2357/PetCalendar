@@ -18,6 +18,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 junit = { module = "junit:junit", version.ref = "junit" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -28,6 +29,8 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin"}
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 # Plugins defined by this project
-pet-android-application = { id = "pet.android.application", version = "unspecified"  }
+pet-android-application = { id = "pet.android.application"  }
+pet-jvm-library = { id = "pet.android.jvm" }
