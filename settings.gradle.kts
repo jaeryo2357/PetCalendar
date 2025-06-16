@@ -9,3 +9,4 @@ pluginManagement {
 
 rootProject.name = "PetCalendar"
 include(":app")
+include(":core:testing")
