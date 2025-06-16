@@ -33,4 +33,5 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 # Plugins defined by this project
 pet-android-application = { id = "pet.android.application"  }
+pet-android-library = { id = "pet.android.library"  }
 pet-jvm-library = { id = "pet.android.jvm" }

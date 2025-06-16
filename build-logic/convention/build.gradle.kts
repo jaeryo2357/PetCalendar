@@ -24,6 +24,10 @@ gradlePlugin {
             id = libs.plugins.pet.android.application.get().pluginId
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        register("androidLibrary") {
+            id = libs.plugins.pet.android.library.get().pluginId
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
         register("jvmLibrary") {
             id = libs.plugins.pet.jvm.library.get().pluginId
             implementationClass = "JvmLibraryConventionPlugin"
