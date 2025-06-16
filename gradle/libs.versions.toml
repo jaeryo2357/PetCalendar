@@ -9,7 +9,7 @@ junitVersion = "1.2.1"
 material = "1.12.0"
 hilt = "2.56"
 kotlin = "2.0.0"
-turbin = "1.2.1"
+turbine = "1.2.1"
 mockk = "1.14.2"
 
 [libraries]
@@ -22,7 +22,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-turbin = { module = "app.cash.turbine:turbine", version.ref = "turbin" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 
 # Dependencies of the included build-logic

@@ -8,7 +8,7 @@ android {
 
 dependencies {
     testApi(libs.junit)
-    testApi(libs.turbin)
+    testApi(libs.turbine)
     testApi(libs.mockk)
 
     androidTestApi(libs.androidx.junit)
